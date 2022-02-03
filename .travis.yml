@@ -1,22 +1,23 @@
+language: generic
 sudo: required
+
 services:
   - docker
+
 before_install:
   - docker build -t poizonharish/docker-frontend -f Dockerfile.dev .
+
 script:
   - docker run -e CI=true poizonharish/docker-frontend npm run test
 
 deploy:
   provider: elasticbeanstalk
-  region: "us-west-1"                                             # the region you choose
-  app: "docker-frontend"                                                   # a name that you setup in aws
-  env: "Docker-env"                                               # a name that revere as the environment
+  region: "us-east-1"
+  app: "docker-frontend"
+  env: "docker-env"
   bucket_name: "elasticbeanstalk-us-east-1-388567290276"
-  bucket_path: "docker-frontend"                                           # the name same as app names
+  bucket_path: "docker-frontend"
   on:
     branch: main
   access_key_id: $AWS_ACCESS_KEY
   secret_access_key: $AWS_SECRET_KEY
-
-
-
